@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--scrollbar-width: 10px;
+	--scrollbar-width-sm: 10px;
+}
+
+/* Ultimate tips for CSS debugging */
+/* * {
+	border: 1px solid red;
+} */
+
+::-webkit-scrollbar {
+	width: var(--scrollbar-width);
+	height: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #ccd4db;
+	border-radius: 0;
+	border: none;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: #9aa2af;
+}
+
+@layer components {
+	.bg-pattern {
+		@apply bg-cover bg-center-center bg-repeat;
+		background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 1500 1100%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cmask id=%22b%22 x=%220%22 y=%220%22 width=%221500%22 height=%221100%22%3E%3Cpath fill=%22url(%23a)%22 d=%22M0 0h1500v1100H0z%22%2F%3E%3C%2Fmask%3E%3Cpath fill=%22%23fff%22 d=%22M0 0h1500v1100H0z%22%2F%3E%3Cg style=%22transform-origin:center center%22 stroke=%22%2394a3b8%22 stroke-width=%22.9%22 mask=%22url(%23b)%22%3E%3Cpath fill=%22%2394a3b88c%22 d=%22M0 0h79v79H0z%22%2F%3E%3Cpath fill=%22none%22 d=%22M79 0h79v79H79zM237 0h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8a1%22 d=%22M395 0h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M474 0h79v79h-79zM632 0h79v79h-79zM711 0h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8bc%22 d=%22M869 0h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1027 0h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b84c%22 d=%22M1106 0h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1185 0h79v79h-79zM1264 0h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8a7%22 d=%22M1343 0h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8b3%22 d=%22M1422 0h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b81c%22 d=%22M79 79h79v79H79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M474 79h79v79h-79zM553 79h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b868%22 d=%22M711 79h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M790 79h79v79h-79zM1422 79h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b833%22 d=%22M0 158h79v79H0z%22%2F%3E%3Cpath fill=%22none%22 d=%22M79 158h79v79H79zM158 158h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b82d%22 d=%22M237 158h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M395 158h79v79h-79zM474 158h79v79h-79zM553 158h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b857%22 d=%22M632 158h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M790 158h79v79h-79zM869 158h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8a5%22 d=%22M1264 158h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1343 158h79v79h-79zM79 237h79v79H79zM158 237h79v79h-79zM474 237h79v79h-79zM553 237h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b889%22 d=%22M632 237h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8fb%22 d=%22M711 237h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8a8%22 d=%22M1027 237h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1106 237h79v79h-79zM1185 237h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b867%22 d=%22M1343 237h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1422 237h79v79h-79zM79 316h79v79H79zM316 316h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8b7%22 d=%22M395 316h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M474 316h79v79h-79zM553 316h79v79h-79zM711 316h79v79h-79zM948 316h79v79h-79zM1027 316h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b875%22 d=%22M1106 316h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1343 316h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b850%22 d=%22M1422 316h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b843%22 d=%22M0 395h79v79H0z%22%2F%3E%3Cpath fill=%22none%22 d=%22M158 395h79v79h-79zM395 395h79v79h-79zM474 395h79v79h-79zM553 395h79v79h-79zM632 395h79v79h-79zM790 395h79v79h-79zM869 395h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b87c%22 d=%22M948 395h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1027 395h79v79h-79zM1106 395h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8b1%22 d=%22M1343 395h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1422 395h79v79h-79zM0 474h79v79H0zM79 474h79v79H79z%22%2F%3E%3Cpath fill=%22%2394a3b81e%22 d=%22M237 474h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M316 474h79v79h-79zM553 474h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b876%22 d=%22M1027 474h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1106 474h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b855%22 d=%22M1343 474h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b82c%22 d=%22M1422 474h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M0 553h79v79H0zM158 553h79v79h-79zM237 553h79v79h-79zM553 553h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8f5%22 d=%22M632 553h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M790 553h79v79h-79zM948 553h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b889%22 d=%22M1027 553h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8a4%22 d=%22M1106 553h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b827%22 d=%22M1185 553h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b86a%22 d=%22M1264 553h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1343 553h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b841%22 d=%22M1422 553h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M158 632h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8aa%22 d=%22M474 632h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M553 632h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8bf%22 d=%22M632 632h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M711 632h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8cd%22 d=%22M869 632h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b807%22 d=%22M1264 632h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1343 632h79v79h-79zM1422 632h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b839%22 d=%22M158 711h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b88b%22 d=%22M316 711h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M553 711h79v79h-79zM632 711h79v79h-79zM790 711h79v79h-79zM1027 711h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b899%22 d=%22M1106 711h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1185 711h79v79h-79zM1264 711h79v79h-79zM1343 711h79v79h-79zM0 790h79v79H0zM79 790h79v79H79zM237 790h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b84a%22 d=%22M316 790h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M474 790h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8d3%22 d=%22M553 790h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M632 790h79v79h-79zM790 790h79v79h-79zM1106 790h79v79h-79zM1422 790h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b868%22 d=%22M0 869h79v79H0z%22%2F%3E%3Cpath fill=%22none%22 d=%22M79 869h79v79H79zM237 869h79v79h-79zM553 869h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b875%22 d=%22M711 869h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8a9%22 d=%22M790 869h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8c3%22 d=%22M948 869h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1264 869h79v79h-79zM1343 869h79v79h-79zM1422 869h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8d9%22 d=%22M0 948h79v79H0z%22%2F%3E%3Cpath fill=%22none%22 d=%22M79 948h79v79H79zM237 948h79v79h-79zM316 948h79v79h-79zM474 948h79v79h-79zM553 948h79v79h-79zM711 948h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b84b%22 d=%22M869 948h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1027 948h79v79h-79zM1185 948h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b823%22 d=%22M1422 948h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M0 1027h79v79H0z%22%2F%3E%3Cpath fill=%22%2394a3b88e%22 d=%22M79 1027h79v79H79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M237 1027h79v79h-79zM553 1027h79v79h-79zM632 1027h79v79h-79zM711 1027h79v79h-79zM790 1027h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8c4%22 d=%22M1027 1027h79v79h-79z%22%2F%3E%3Cpath fill=%22none%22 d=%22M1106 1027h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8fb%22 d=%22M1185 1027h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8a0%22 d=%22M1343 1027h79v79h-79z%22%2F%3E%3Cpath fill=%22%2394a3b8a5%22 d=%22M1422 1027h79v79h-79z%22%2F%3E%3C%2Fg%3E%3Cdefs%3E%3CradialGradient id=%22a%22%3E%3Cstop offset=%2250%25%22 stop-color=%22%23fff%22 stop-opacity=%220%22%2F%3E%3Cstop offset=%221%22 stop-color=%22%23fff%22 stop-opacity=%22.5%22%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3C%2Fsvg%3E');
+	}
+
+	.map-marker {
+		@apply flex h-6 w-6 -rotate-45 items-center justify-center;
+		border-radius: 50% 50% 50% 2px;
+	}
+}

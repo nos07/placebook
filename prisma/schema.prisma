@@ -1,0 +1,235 @@
+generator client {
+	provider = "prisma-client-js"
+}
+
+datasource db {
+	provider = "postgresql"
+	url      = env("DATABASE_URL")
+}
+
+model Example {
+	id        String   @id @default(cuid())
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+}
+
+model Account {
+	id                String  @id @default(cuid())
+	userId            String
+	type              String
+	provider          String
+	providerAccountId String
+	refresh_token     String?
+	access_token      String?
+	expires_at        Int?
+	token_type        String?
+	scope             String?
+	id_token          String?
+	session_state     String?
+	user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+	@@unique([provider, providerAccountId])
+	@@map("accounts")
+}
+
+model Session {
+	id           String   @id @default(cuid())
+	sessionToken String   @unique
+	userId       String
+	expires      DateTime
+	user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+	USER
+	ADMIN
+}
+
+enum PropertyType {
+	APARTMENT
+	DETACHED_HOUSE
+}
+
+model User {
+	id         String    @id @default(cuid())
+	name       String    @unique
+	email      String    @unique
+	password   String
+	image      String?
+	role       Role      @default(USER)
+	emailVerified DateTime?
+	createdAt  DateTime  @default(now()) @map("created_at")
+	updatedAt  DateTime  @updatedAt @map("updated_at")
+	sessions   Session[]
+	accounts   Account[]
+	userVerification UserVerification?
+	reviews    Review[]
+
+	@@map("users")
+}
+
+model UserVerification {
+	id               Int      @id @default(autoincrement())
+	user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+	userId           String   @unique
+	verificationCode String
+	createdAt        DateTime @default(now())
+	expiresAt        DateTime
+}
+
+model VerificationToken {
+	identifier String
+	token      String   @unique
+	expires    DateTime
+
+	@@unique([identifier, token])
+	@@map("verificationtokens")
+}
+
+model HomestayPricing {
+  id         Int       @id @default(autoincrement())
+  weekday    Int?
+  weekend    Int?
+  month      Int?
+  homestayId Int       @unique
+  homestay   Homestay  @relation(fields: [homestayId], references: [id])
+
+  @@map("homestay_pricing")
+}
+
+model HomestayRules {
+	id           Int          @id @default(autoincrement())
+	checkInTime  String
+	checkOutTime String
+	smoking      Boolean
+	pets         Boolean
+	party        Boolean
+	payments     String
+	homestayId   Int          @unique
+	homestay     Homestay     @relation(fields: [homestayId], references: [id])
+
+  @@map("homestay_rules")
+}
+
+model HomestayKitchen {
+	id              Int     @id @default(autoincrement())
+	inductionCooker Boolean
+	gasStove        Boolean
+	refrigerator    Boolean
+	microwave       Boolean
+	homestayId      Int     @unique
+	facilities      HomestayFacilities? @relation(fields: [homestayId], references: [id])
+
+	@@map("homestay_kitchen")
+}
+
+model HomestayFacilities {
+	id            Int         @id @default(autoincrement())
+	numOfBedroom  Int
+	numOfBathroom Int
+	kitchen       HomestayKitchen?
+	kitchenId     Int?
+	homestayId    Int         @unique
+	homestay      Homestay    @relation(fields: [homestayId], references: [id])
+
+	@@map("homestay_facilities")
+}
+
+model HomestayUtilities {
+	id               Int      @id @default(autoincrement())
+	wifi             Boolean
+	airCondition     Boolean
+	tivi             Boolean
+	elevator         Boolean
+	toothpaste       Boolean
+	bathSoap         Boolean
+	tissue           Boolean
+	bathTowel        Boolean
+	shampoo          Boolean
+	mineralWater     Boolean
+	washingMachine   Boolean
+	homestayId       Int        @unique
+	homestay         Homestay   @relation(fields: [homestayId], references: [id])
+
+	@@map("homestay_utilities")
+}
+
+model Homestay {
+	id             Int      @id @default(autoincrement())
+	type           String
+	name           String
+	address        String
+	city           String
+	latitude       Float
+	longitude      Float
+	coverImage     String?
+	facebookLink   String?
+	instagramLink  String?
+	contact        String?
+	createdAt      DateTime @default(now())
+	reviews        Review[]
+	description    String?
+	propertyType   PropertyType?
+	pricing        HomestayPricing?
+	facilities     HomestayFacilities?
+	utilities      HomestayUtilities?
+	homeRules      HomestayRules?
+	verified       Boolean
+
+	@@map("homestay")
+}
+
+model Bar {
+	id             Int      @id @default(autoincrement())
+	type           String
+	name           String
+	address        String
+	city           String
+	latitude       Float
+	longitude      Float
+	coverImage     String?
+	facebookLink   String?
+	instagramLink  String?
+	contact        String?
+	description    String?
+	pricing        String?
+	openHour       String?
+	closeHour      String?
+	happyHourStart String?
+	happyHourEnd   String?
+	reviews        Review[]
+	verified       Boolean
+
+	@@map("bar")
+}
+
+model Review {
+	id           Int         @id @default(autoincrement())
+	comment      String?
+	rating       Rating?
+	photos       String[]
+	homestay     Homestay?   @relation(fields: [homestayId], references: [id])
+	bar          Bar?        @relation(fields: [barId], references: [id])
+	homestayId   Int?
+	barId        Int?
+	createdBy    User        @relation(fields: [userId], references: [id])
+	userId       String
+	createdAt    DateTime    @default(now())
+
+	@@map("review")
+}
+
+// TODO: add all rating criteria to this entity
+model Rating {
+	id           Int      @id @default(autoincrement())
+	comfort      Float?
+	amenities    Float?
+	wifi         Float?
+	safety       Float?
+	noisy        Float?
+	beverage     Float?
+	location     Float?
+	placeType    String?
+	review       Review   @relation(fields: [reviewId], references: [id])
+	reviewId     Int      @unique
+}
