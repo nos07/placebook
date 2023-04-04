@@ -9,17 +9,15 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { Button } from './ui/button';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { cities, City } from './main';
 import { cn } from '@/lib/utils';
-import { Reviewing } from './reviewing';
 
 export const Nav = ({
 	onChangeCity,
 }: {
 	onChangeCity: (city: City) => void;
 }) => {
-
 	const handleChangeSearchKey = (event: ChangeEvent<HTMLInputElement>) => {
 		// setSearchKey(event.target.value);
 	};
@@ -31,7 +29,7 @@ export const Nav = ({
 	return (
 		<nav
 			className={cn(
-				'absolute top-0 left-0',
+				'absolute left-0 top-0',
 				'flex gap-6',
 				'h-16 w-full',
 				'px-4',
@@ -60,7 +58,6 @@ export const Nav = ({
 					onChange={handleChangeSearchKey}
 				/>
 			</div>
-			<Reviewing />
 			<div>
 				<Select value={'ha_noi'} onValueChange={handleChangeCity}>
 					<SelectTrigger className="h-16 w-[180px] border-none focus:ring-0">

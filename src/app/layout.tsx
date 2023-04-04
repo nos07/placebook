@@ -1,9 +1,11 @@
 import { Inter } from 'next/font/google';
+
 import '@/styles/globals.css';
 import { cn, absoluteUrl } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toast';
 import AnalyticsWrapper from '@/components/analytics';
 import { siteConfig } from '@/config/site';
+import { AlertDialogProvider } from '@/components/ui/alert-dialog-provider';
 
 const inter = Inter({
 	subsets: ['latin'],
@@ -47,6 +49,7 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
+
 	return (
 		<html lang="en">
 			<head />
@@ -56,10 +59,11 @@ export default function RootLayout({
 					inter.variable,
 				)}
 			>
-				{children}
+				<AlertDialogProvider>
+					{children}
+				</AlertDialogProvider>
 				<Toaster position="bottom-right" />
 				{/* <AnalyticsWrapper /> */}
-				<div id="drawer" />
 			</body>
 		</html>
 	);

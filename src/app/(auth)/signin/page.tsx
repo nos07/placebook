@@ -9,7 +9,7 @@ export const metadata = {
 export default function Page() {
 	return (
 		<>
-			<div className="text-center py-4">
+			<div className="py-4 text-center">
 				<h2 className="text-2xl font-bold">Welcome back</h2>
 				<p className="my-1 text-gray-600">
 					Welcome back! Please enter your details

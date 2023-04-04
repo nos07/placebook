@@ -14,8 +14,10 @@ import { Map } from './map';
 import { Nav } from './nav';
 import { useDebounce } from '@/hooks/use-debounce';
 
-export const cities: Record<string, {coordinate: mapboxgl.LngLatLike;
-	name: string;}> = {
+export const cities: Record<
+	string,
+	{ coordinate: mapboxgl.LngLatLike; name: string }
+> = {
 	ha_noi: {
 		coordinate: [105.8342, 21.0278],
 		name: 'Ha Noi',
@@ -40,15 +42,17 @@ export const Main = () => {
 	const [city, setCity] = useState<City>('ha_noi');
 	const debouncedPlace = useDebounce<string>(place);
 
-	const onChangeCity = useCallback((newCity: City) => {
-		setCity(newCity);
-	}, [setCity]);
+	const onChangeCity = useCallback(
+		(newCity: City) => {
+			setCity(newCity);
+		},
+		[setCity],
+	);
 
 	return (
 		<>
 			<Nav onChangeCity={onChangeCity} />
 			<Map city={city} />
 		</>
-	)
-}
-
+	);
+};
