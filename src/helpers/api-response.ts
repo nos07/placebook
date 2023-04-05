@@ -33,3 +33,11 @@ export const error = <T>(
 		error,
 	});
 };
+
+export const handleApiResponse = (response: Response): Promise<any> => {
+	if (response.status >= 200 && response.status < 300) {
+		return Promise.resolve(response.json());
+	} else {
+		return Promise.reject(new Error(`API call failed with status ${response.status}`));
+	}
+}

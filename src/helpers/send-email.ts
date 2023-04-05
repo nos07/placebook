@@ -46,9 +46,7 @@ export async function sendEmailVerification(
 					<p>Please verify your email to finish signing up for Placebook</p>
 					<a
 						style="text-decoration: none; color: white; border-radius: 5px; width: fit-content; background:#4c7cf8; display:block; padding: 10px; margin: 0 auto"
-						href="${env.NEXTAUTH_URL}/verify/${id}/${verificationCode}/${new Date(
-			expiresAt,
-		).getTime()}">
+						href="${env.NEXTAUTH_URL}/verify/${id}/${verificationCode}/${new Date(expiresAt).getTime()}">
 						Verify your email
 					</a>
 					<p>This link will <b>expires in 24 hours</b></p>
@@ -88,11 +86,7 @@ export async function sendForgetPasswordEmail(
 					<p style="font-weight: bold;">To reset your password visit following address:</p>
 					<a
 						style="text-decoration: none; color: white; border-radius: 5px; width: fit-content; background:#4c7cf8; display:block; padding: 10px; margin: 0 auto"
-						href="${
-							env.NEXTAUTH_URL
-						}/user/reset-password/${id}/${verificationCode}/${new Date(
-			expiresAt,
-		).getTime()}"
+						href="${env.NEXTAUTH_URL}/user/reset-password/${id}/${verificationCode}/${new Date(expiresAt).getTime()}"
 					>
 						Reset password
 					</a>

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { UserRegisterForm } from '@/components/user-register-form';
+import { UserSignUpForm } from '@/components/user-signup-form';
 
 export const metadata = {
 	title: 'Sign up',
@@ -12,7 +12,7 @@ export default function Page() {
 				<h2 className="my-2 text-2xl font-semibold">Create an account</h2>
 				<p className="text-sm">Enter the fields below to get started</p>
 			</div>
-			<UserRegisterForm />
+			<UserSignUpForm />
 			<div className="text-center">
 				Already have an account?{' '}
 				<Link className="text-blue-500 hover:underline" href="/signin">

@@ -1,9 +1,11 @@
 'use client';
 
-// import { useReducer } from 'react';
+import { useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+
+import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { REG_EXP } from '@/helpers/regex';
 import { cn } from '@/lib/utils';
@@ -11,10 +13,9 @@ import { Icons } from '@/components/ui/icons';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from './ui/toast';
-import useSWRMutation from 'swr/mutation';
-import { poster } from '@/lib/fetcher';
+import { handleApiResponse } from '@/helpers/api-response';
 
-const FormSchema = z
+const SignUpSchema = z
 	.object({
 		name: z.string().min(5, { message: 'Must be 5 or more characters long' }),
 		email: z.string().email({ message: 'Invalid email address' }),
@@ -33,35 +34,47 @@ const FormSchema = z
 			});
 		}
 	});
-type FormSchemaType = z.infer<typeof FormSchema>;
+export type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 
-export function UserRegisterForm() {
+export function UserSignUpForm() {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
-	} = useForm<FormSchemaType>({
-		resolver: zodResolver(FormSchema),
+	} = useForm<SignUpSchemaType>({
+		resolver: zodResolver(SignUpSchema),
 	});
 
-	const { trigger, isMutating } = useSWRMutation('/api/auth/signup', poster);
-	const onSubmit: SubmitHandler<FormSchemaType> = (data) =>
-		trigger(data, {
-			onSuccess(data, key, config) {
-				toast({
-					title: `Welcome ${data.data.user.name} 🎊`,
-					message: data.message,
-					type: 'success',
-				});
-			},
-			onError(err, key, config) {
-				toast({
-					title: 'Something went wrong.',
-					message: err.message,
-					type: 'error',
-				});
-			},
-		});
+	const router = useRouter();
+	const [isPending, startTransition] = useTransition();
+	const [isFetching, setIsFetching] = useState(false);
+	async function handleRegister(data: SignUpSchemaType) {
+		try {
+			setIsFetching(true);
+			// Mutate external data source
+			const response = await fetch(`/api/signup`, {
+				method: 'POST',
+				body: JSON.stringify(data),
+			});
+			const responseData = await handleApiResponse(response);
+			toast({
+				title: `Welcome ${responseData.data.name} 🎊`,
+				message: responseData.message,
+				type: 'success',
+			});
+			setIsFetching(false);
+	
+			startTransition(() => {
+				// Refresh the current route and fetch new data from the server without
+				// losing client-side browser or React state.
+				router.refresh();
+			});
+		} catch(error) {
+			console.error('An error occurred during API call', error);
+		}
+	}
+
+	const onSubmit: SubmitHandler<SignUpSchemaType> = (data) => handleRegister(data);
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -73,7 +86,7 @@ export function UserRegisterForm() {
 					id="username"
 					autoComplete="username"
 					{...register('name')}
-					disabled={isSubmitting}
+					disabled={isPending}
 				/>
 				<p className="h-4 text-end text-xs text-red-600">
 					{errors.name?.message ?? ''}
@@ -87,7 +100,7 @@ export function UserRegisterForm() {
 					id="email"
 					autoComplete="email"
 					{...register('email')}
-					disabled={isSubmitting}
+					disabled={isPending}
 				/>
 				<p className="h-4 text-end text-xs text-red-600">
 					{errors.email?.message ?? ''}
@@ -102,7 +115,7 @@ export function UserRegisterForm() {
 					type="password"
 					autoComplete="new-password"
 					{...register('password')}
-					disabled={isSubmitting}
+					disabled={isPending}
 				/>
 				<span className="h-4" />
 			</div>
@@ -115,7 +128,7 @@ export function UserRegisterForm() {
 					type="password"
 					autoComplete="new-password"
 					{...register('confirmPassword')}
-					disabled={isSubmitting}
+					disabled={isPending}
 				/>
 				<p className="h-8 text-end text-xs text-red-600">
 					{((errors) => {
@@ -130,10 +143,10 @@ export function UserRegisterForm() {
 			<Button
 				className={cn(
 					'mt-4 flex w-full gap-[1ch]',
-					isMutating ? 'bg-gray-500' : '',
+					isFetching ? 'bg-gray-500' : '',
 				)}
 				type="submit"
-				disabled={isSubmitting}
+				disabled={isPending}
 			>
 				<Icons.unlock size={20} /> Sign up
 			</Button>
