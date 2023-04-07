@@ -9,7 +9,7 @@ import HttpStatusCode from "@/helpers/http-status-code";
 
 const SALT_ROUND = 10;
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
 	try {
 		const body: SignUpSchemaType = await req.json();
 		const { password, email, name } = body;

@@ -7,6 +7,7 @@ import React, {
 	useMemo,
 	useRef,
 	useState,
+	use,
 } from 'react';
 import { createRoot } from 'react-dom/client';
 import mapboxgl from 'mapbox-gl';
@@ -26,6 +27,8 @@ import { cn } from '@/lib/utils';
 import { usePlaces } from '@/swr/usePlaces';
 
 export const Map = ({ city }: { city: City }) => {
+	// TODO: https://beta.nextjs.org/docs/app-directory-roadmap#data-fetching
+	// replace swr with react use hook
 	const { places } = usePlaces();
 	const mapContainer = useRef<any>(null);
 	const map = useRef<mapboxgl.Map | null>(null);
@@ -36,6 +39,11 @@ export const Map = ({ city }: { city: City }) => {
 		setSelectedPlace(name);
 		setPopupOpen(true);
 	};
+
+	const onClosePopup = () => {
+		setSelectedPlace('');
+		setPopupOpen(false);
+	}
 
 	useEffect(() => {
 		mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN;
@@ -88,14 +96,21 @@ export const Map = ({ city }: { city: City }) => {
 
 	const memoizedMap = useMemo(() => {
 		return (
-			<div
-				ref={mapContainer}
-				style={{
-					width: '100%',
-					height: '100vh',
-					backgroundColor: '#EEE',
-				}}
-			/>
+			<>
+				<div
+					ref={mapContainer}
+					style={{
+						width: '100%',
+						height: '100vh',
+						backgroundColor: '#EEE',
+					}}
+				/>
+				<MarkerPopup
+					name={selectedPlace}
+					popupOpen={popupOpen}
+					onClosePopup={onClosePopup}
+				/>
+			</>
 		);
 	}, [popupOpen]);
 
@@ -146,9 +161,13 @@ const markerColor: Record<PlaceTypes, string> = {
 	bar: 'bg-slate-200',
 };
 
-export const MarkerPopup = ({ name, popupOpen, onOpenChange }: any) => {
+export const MarkerPopup = ({ name, popupOpen, onClosePopup }: {
+	name: string,
+	popupOpen: boolean,
+	onClosePopup: () => void,
+}) => {
 	return (
-		<Sheet open={popupOpen} onOpenChange={onOpenChange}>
+		<Sheet open={popupOpen} onOpenChange={onClosePopup}>
 			<SheetContent position="right" size="default" className="overflow-scroll">
 				<SheetHeader>
 					{/* <AspectRatio ratio={16 / 9}>

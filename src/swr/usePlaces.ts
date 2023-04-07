@@ -6,7 +6,7 @@ export type Places = (Homestay | Bar)[];
 
 export function usePlaces() {
 	const { data, error } = useSWR<{ data: Array<Places> }>(
-		'/api/places/get-places',
+		'/api/places',
 		fetcher,
 	);
 
