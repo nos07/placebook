@@ -13,6 +13,7 @@ import {
 import { Map } from './map';
 import { Nav } from './nav';
 import { useDebounce } from '@/hooks/use-debounce';
+import { placesSelect } from '@/app/api/places/route';
 
 export const cities: Record<
 	string,
@@ -37,7 +38,11 @@ export const cities: Record<
 };
 export type City = keyof typeof cities;
 
-export const Main = () => {
+export const Main = ({
+	places
+}: {
+	places: Array<{ [K in keyof typeof placesSelect.select]: string }>
+}) => {
 	const [place, setPlace] = useState('');
 	const [city, setCity] = useState<City>('ha_noi');
 	const debouncedPlace = useDebounce<string>(place);
@@ -51,8 +56,8 @@ export const Main = () => {
 
 	return (
 		<>
-			<Nav onChangeCity={onChangeCity} />
-			<Map city={city} />
+			<Nav city={city} onChangeCity={onChangeCity} />
+			<Map city={city} places={places} />
 		</>
 	);
 };

@@ -52,7 +52,7 @@ export function UserSigninForm() {
 			});
 		}
 		if (response?.ok) {
-			router.push(response?.url as string);
+			router.replace('/')
 			toast({
 				title: `Good ${getTimeOfDay()}`,
 				message: 'Hope you have a nice day',

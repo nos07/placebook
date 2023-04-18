@@ -1,13 +1,9 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
 import React, {
-	FunctionComponent,
-	ReactNode,
-	useCallback,
 	useEffect,
 	useMemo,
 	useRef,
 	useState,
-	use,
 } from 'react';
 import { createRoot } from 'react-dom/client';
 import mapboxgl from 'mapbox-gl';
@@ -16,20 +12,23 @@ import Image from 'next/image';
 import {
 	Sheet,
 	SheetContent,
-	SheetDescription,
 	SheetHeader,
 	SheetTitle,
-	SheetTrigger,
 } from '@/components/ui/sheet';
 import { cities, City } from './main';
 import { PlaceTypes } from '@/helpers/rating-categories';
 import { cn } from '@/lib/utils';
-import { usePlaces } from '@/swr/usePlaces';
+import { Icons } from './ui/icons';
+import { Button } from './ui/button';
+import { placesSelect } from '@/app/api/places/route';
 
-export const Map = ({ city }: { city: City }) => {
-	// TODO: https://beta.nextjs.org/docs/app-directory-roadmap#data-fetching
-	// replace swr with react use hook
-	const { places } = usePlaces();
+export const Map = ({
+	city,
+	places
+}: {
+	city: City,
+	places: Array<{ [K in keyof typeof placesSelect.select]: string }>
+}) => {
 	const mapContainer = useRef<any>(null);
 	const map = useRef<mapboxgl.Map | null>(null);
 	const [selectedPlace, setSelectedPlace] = useState('');
@@ -43,7 +42,16 @@ export const Map = ({ city }: { city: City }) => {
 	const onClosePopup = () => {
 		setSelectedPlace('');
 		setPopupOpen(false);
-	}
+	};
+
+	const onCurrentLocation = () => {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(position => {
+				const { longitude, latitude } = position.coords;
+				map.current!.flyTo({ center: [longitude, latitude], zoom: 15 });
+			});
+		}
+	};
 
 	useEffect(() => {
 		mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN;
@@ -74,7 +82,7 @@ export const Map = ({ city }: { city: City }) => {
 
 	useEffect(() => {
 		if (map.current && places.length) {
-			places.forEach((p) => {
+			places.forEach((p: any) => {
 				// Create a new Marker element with a custom icon
 				const el = document.createElement('div');
 				el.className = 'marker';
@@ -86,6 +94,7 @@ export const Map = ({ city }: { city: City }) => {
 					/>,
 				);
 
+				// TODO: cluster marker on zooming out
 				// Create a new marker with the given longitude and latitude
 				new mapboxgl.Marker(el)
 					.setLngLat([p.longitude, p.latitude])
@@ -105,6 +114,12 @@ export const Map = ({ city }: { city: City }) => {
 						backgroundColor: '#EEE',
 					}}
 				/>
+				<Button
+					className="fixed bottom-6 right-20 backdrop-blur-sm bg-slate-900/20 hover:bg-slate-900/30 p-0 w-8 h-8"
+					onClick={onCurrentLocation}
+				>
+					<Icons.locateFixed size={20} />
+				</Button>
 				<MarkerPopup
 					name={selectedPlace}
 					popupOpen={popupOpen}

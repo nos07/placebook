@@ -3,8 +3,10 @@ generator client {
 }
 
 datasource db {
-	provider = "postgresql"
-	url      = env("DATABASE_URL")
+	provider     = "postgresql"
+	url          = env("DATABASE_URL")
+	// https://www.prisma.io/docs/concepts/components/prisma-schema/relations/relation-mode
+	relationMode = "foreignKeys"
 }
 
 model Example {
@@ -87,12 +89,12 @@ model VerificationToken {
 }
 
 model HomestayPricing {
-  id         Int       @id @default(autoincrement())
-  weekday    Int?
-  weekend    Int?
-  month      Int?
-  homestayId Int       @unique
-  homestay   Homestay  @relation(fields: [homestayId], references: [id])
+	id           Int       @id @default(autoincrement())
+	weekday      Int?
+	weekend      Int?
+	month        Int?
+	homestayId   String    @unique
+	homestay     Homestay  @relation(fields: [homestayId], references: [id])
 
   @@map("homestay_pricing")
 }
@@ -105,7 +107,7 @@ model HomestayRules {
 	pets         Boolean
 	party        Boolean
 	payments     String
-	homestayId   Int          @unique
+	homestayId   String       @unique
 	homestay     Homestay     @relation(fields: [homestayId], references: [id])
 
   @@map("homestay_rules")
@@ -129,14 +131,14 @@ model HomestayFacilities {
 	numOfBathroom Int
 	kitchen       HomestayKitchen?
 	kitchenId     Int?
-	homestayId    Int         @unique
+	homestayId    String      @unique
 	homestay      Homestay    @relation(fields: [homestayId], references: [id])
 
 	@@map("homestay_facilities")
 }
 
 model HomestayUtilities {
-	id               Int      @id @default(autoincrement())
+	id               String     @id @default(uuid())
 	wifi             Boolean
 	airCondition     Boolean
 	tivi             Boolean
@@ -148,14 +150,14 @@ model HomestayUtilities {
 	shampoo          Boolean
 	mineralWater     Boolean
 	washingMachine   Boolean
-	homestayId       Int        @unique
+	homestayId       String     @unique
 	homestay         Homestay   @relation(fields: [homestayId], references: [id])
 
-	@@map("homestay_utilities")
+  @@map("homestay_utilities")
 }
 
 model Homestay {
-	id             Int      @id @default(autoincrement())
+	id             String  @id @default(uuid())
 	type           String
 	name           String
 	address        String
@@ -180,7 +182,7 @@ model Homestay {
 }
 
 model Bar {
-	id             Int      @id @default(autoincrement())
+	id     String  @id @default(uuid())
 	type           String
 	name           String
 	address        String
@@ -208,10 +210,10 @@ model Review {
 	comment      String?
 	rating       Rating?
 	photos       String[]
+	homestayId   String?
+	barId        String?
 	homestay     Homestay?   @relation(fields: [homestayId], references: [id])
 	bar          Bar?        @relation(fields: [barId], references: [id])
-	homestayId   Int?
-	barId        Int?
 	createdBy    User        @relation(fields: [userId], references: [id])
 	userId       String
 	createdAt    DateTime    @default(now())

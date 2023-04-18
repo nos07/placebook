@@ -15,8 +15,10 @@ import { cn } from '@/lib/utils';
 
 export const Nav = ({
 	onChangeCity,
+	city
 }: {
 	onChangeCity: (city: City) => void;
+	city: City
 }) => {
 	const handleChangeSearchKey = (event: ChangeEvent<HTMLInputElement>) => {
 		// setSearchKey(event.target.value);
@@ -59,7 +61,7 @@ export const Nav = ({
 				/>
 			</div>
 			<div>
-				<Select value={'ha_noi'} onValueChange={handleChangeCity}>
+				<Select value={city} onValueChange={handleChangeCity}>
 					<SelectTrigger className="h-16 w-[180px] border-none focus:ring-0">
 						<SelectValue placeholder="Select city" />
 					</SelectTrigger>

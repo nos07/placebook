@@ -80,7 +80,7 @@ CREATE TABLE "homestay_pricing" (
     "weekday" INTEGER,
     "weekend" INTEGER,
     "month" INTEGER,
-    "homestayId" INTEGER NOT NULL,
+    "homestayId" TEXT NOT NULL,
 
     CONSTRAINT "homestay_pricing_pkey" PRIMARY KEY ("id")
 );
@@ -94,7 +94,7 @@ CREATE TABLE "homestay_rules" (
     "pets" BOOLEAN NOT NULL,
     "party" BOOLEAN NOT NULL,
     "payments" TEXT NOT NULL,
-    "homestayId" INTEGER NOT NULL,
+    "homestayId" TEXT NOT NULL,
 
     CONSTRAINT "homestay_rules_pkey" PRIMARY KEY ("id")
 );
@@ -117,14 +117,14 @@ CREATE TABLE "homestay_facilities" (
     "numOfBedroom" INTEGER NOT NULL,
     "numOfBathroom" INTEGER NOT NULL,
     "kitchenId" INTEGER,
-    "homestayId" INTEGER NOT NULL,
+    "homestayId" TEXT NOT NULL,
 
     CONSTRAINT "homestay_facilities_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "homestay_utilities" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "wifi" BOOLEAN NOT NULL,
     "airCondition" BOOLEAN NOT NULL,
     "tivi" BOOLEAN NOT NULL,
@@ -136,14 +136,14 @@ CREATE TABLE "homestay_utilities" (
     "shampoo" BOOLEAN NOT NULL,
     "mineralWater" BOOLEAN NOT NULL,
     "washingMachine" BOOLEAN NOT NULL,
-    "homestayId" INTEGER NOT NULL,
+    "homestayId" TEXT NOT NULL,
 
     CONSTRAINT "homestay_utilities_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "homestay" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "type" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "address" TEXT NOT NULL,
@@ -164,7 +164,7 @@ CREATE TABLE "homestay" (
 
 -- CreateTable
 CREATE TABLE "bar" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "type" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "address" TEXT NOT NULL,
@@ -191,8 +191,8 @@ CREATE TABLE "review" (
     "id" SERIAL NOT NULL,
     "comment" TEXT,
     "photos" TEXT[],
-    "homestayId" INTEGER,
-    "barId" INTEGER,
+    "homestayId" TEXT,
+    "barId" TEXT,
     "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

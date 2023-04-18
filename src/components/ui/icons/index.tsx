@@ -19,6 +19,7 @@ import {
 	Plus,
 	ImagePlus,
 	Home,
+	LocateFixed
 } from 'lucide-react';
 import type { Icon as LucideIcon } from 'lucide-react';
 
@@ -45,4 +46,5 @@ export const Icons = {
 	plus: Plus,
 	imagePlus: ImagePlus,
 	home: Home,
+	locateFixed: LocateFixed
 };
