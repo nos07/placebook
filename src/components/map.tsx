@@ -8,6 +8,7 @@ import React, {
 import { createRoot } from 'react-dom/client';
 import mapboxgl from 'mapbox-gl';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
 import {
 	Sheet,
@@ -21,6 +22,7 @@ import { cn } from '@/lib/utils';
 import { Icons } from './ui/icons';
 import { Button } from './ui/button';
 import { placesSelect } from '@/app/api/places/route';
+import Link from 'next/link';
 
 export const Map = ({
 	city,
@@ -35,8 +37,9 @@ export const Map = ({
 	const [popupOpen, setPopupOpen] = useState(false);
 
 	const onOpenPopup = (name: string) => {
-		setSelectedPlace(name);
-		setPopupOpen(true);
+		redirect(`/place/${name}`)
+		// setSelectedPlace(name);
+		// setPopupOpen(true);
 	};
 
 	const onClosePopup = () => {
@@ -82,22 +85,24 @@ export const Map = ({
 
 	useEffect(() => {
 		if (map.current && places.length) {
-			places.forEach((p: any) => {
+			places.forEach((p: { [K in keyof typeof placesSelect.select]: string }) => {
 				// Create a new Marker element with a custom icon
 				const el = document.createElement('div');
 				el.className = 'marker';
 				createRoot(el).render(
-					<Marker
-						type={p.type as PlaceTypes}
-						name={p.name}
-						onOpenPopup={onOpenPopup}
-					/>,
+					<Link key={p.id} href={`/place/${p.name}`}>
+						<Marker
+							type={p.type as PlaceTypes}
+							name={p.name}
+							// onOpenPopup={onOpenPopup}
+						/>
+					</Link>,
 				);
 
 				// TODO: cluster marker on zooming out
 				// Create a new marker with the given longitude and latitude
 				new mapboxgl.Marker(el)
-					.setLngLat([p.longitude, p.latitude])
+					.setLngLat([+p.longitude, +p.latitude])
 					.addTo(map.current!);
 			});
 		}
@@ -136,11 +141,11 @@ const Marker = React.memo(
 	({
 		type,
 		name,
-		onOpenPopup,
+		// onOpenPopup,
 	}: {
 		type: PlaceTypes;
 		name: string;
-		onOpenPopup: (name: string) => void;
+		// onOpenPopup: (name: string) => void;
 	}): JSX.Element => {
 		const mapIcon: Record<PlaceTypes, string> = {
 			coffee_shop: '/cup-with-straw.png',
@@ -152,7 +157,7 @@ const Marker = React.memo(
 		return (
 			<div
 				className="flex flex-col items-center"
-				onClick={() => onOpenPopup(name)}
+				// onClick={() => onOpenPopup(name)}
 			>
 				<div className={cn('map-marker', markerColor[type])}>
 					<Image

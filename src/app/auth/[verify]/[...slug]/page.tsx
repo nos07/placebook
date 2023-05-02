@@ -28,7 +28,7 @@ export default function Page() {
 			message: 'Thanks for verifying your account',
 			type: 'success',
 		});
-		router.push('/signin');
+		router.push('/auth/signin');
 	}
 
 	if (error) {

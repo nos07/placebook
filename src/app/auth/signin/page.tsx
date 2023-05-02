@@ -18,7 +18,7 @@ export default function Page() {
 			<UserSigninForm />
 			<div className="text-center">
 				Don't have an account?{' '}
-				<Link className="text-blue-500 hover:underline" href="/signup">
+				<Link className="text-blue-500 hover:underline" href="/auth/signup">
 					Sign up for free
 				</Link>
 			</div>

@@ -27,7 +27,7 @@ export type AlertAction =
 			body?: string;
 			cancelButton?: string;
 			actionButton?: string;
-	  }
+		}
 	| {
 			type: 'prompt';
 			title: string;
@@ -39,7 +39,7 @@ export type AlertAction =
 				React.InputHTMLAttributes<HTMLInputElement>,
 				HTMLInputElement
 			>;
-	  }
+		}
 	| { type: 'close' };
 
 interface AlertDialogState {

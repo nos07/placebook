@@ -46,8 +46,10 @@ export const metadata = {
 
 export default function RootLayout({
 	children,
+	modal,
 }: {
 	children: React.ReactNode;
+	modal: React.ReactNode;
 }) {
 
 	return (
@@ -59,6 +61,7 @@ export default function RootLayout({
 					inter.variable,
 				)}
 			>
+				{modal}
 				<AlertDialogProvider>
 					{children}
 				</AlertDialogProvider>

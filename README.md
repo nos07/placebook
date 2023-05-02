@@ -19,10 +19,10 @@ EMAIL_FROM=NextAuth <noreply@example.com>
 ```
 
 # TODO
+- Switch to drizzle-orm from Prisma as the database ORM
+- Vercel storage form S3/uploadthing
+- Vercel Postgres
 
-- Using API routes
-- Re-design primsa entity
-  - Add new role ()
 
 # Cloning/Forking
 
